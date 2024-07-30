@@ -91,3 +91,6 @@ typings/
 
 # databases
 *.db3
+
+# DotEnv environment variables file
+.env
