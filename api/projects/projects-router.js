@@ -5,32 +5,38 @@ const Actions = require('../projects/projects-model')
 const express = require('express');
 const router = express.Router();
 
+const { validateProjectId } = require('./projects-middleware');
+
 router.get('/', (req, res, next) => {
-    Project.get() 
+    Project.get()
         .then(projects => {
             res.json(projects);
         })
         .catch(next);
 });
 
-router.get('/:id', (req, res, next) => {
-
+router.get('/:id', validateProjectId, (req, res, next) => {
+    res.json(req.project)
 });
 
-router.post('/', (req, res, next) => {
-
+router.post('/', validateProjectId, (req, res, next) => {
+    Project.insert( { name: req.name })
+    .then(newProject => {
+        res.status(201).json(newProject)
+    })
+    .catch(next)
 });
 
-router.put('/:id', (req, res, next) => {
-
+router.put('/:id', validateProjectId, (req, res, next) => {
+    next()
 });
 
-router.delete('/:id', (req, res, next) => {
-
+router.delete('/:id', validateProjectId, (req, res, next) => {
+    next()
 });
 
-router.get('/:id/actions', (req, res, next) => {
-
+router.get('/:id/actions', validateProjectId, (req, res, next) => {
+    next()
 });
 
 router.use((err, req, res, next) => {
