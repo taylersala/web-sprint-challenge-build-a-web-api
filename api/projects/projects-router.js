@@ -1,6 +1,5 @@
 // Write your "projects" router here!
 const Project = require('./projects-model')
-const Actions = require('../projects/projects-model')
 
 const express = require('express');
 const router = express.Router();
