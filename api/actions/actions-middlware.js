@@ -16,10 +16,19 @@ async function validateActionId(req, res, next) {
     }
 }
 
+// function validateActionsBody(req, res, next) {
+//     const { name, description, completed } = req.body;
+//     if (!name || !description || completed === undefined) {
+//       return res.status(400).json({ message: 'Name, description, and completed status are required' });
+//     }
+//     next();
+//   }
+
+
 function validateActionsBody(req, res, next) {
-    const { name, description, completed } = req.body;
-    if (!name || !description || completed === undefined) {
-      return res.status(400).json({ message: 'Name, description, and completed status are required' });
+    const { project_id, description, notes, completed } = req.body;
+    if (!project_id || !description || !notes || completed === undefined) {
+      return res.status(400).json({ message: 'Project ID, description, notes, and completed status are required' });
     }
     next();
   }

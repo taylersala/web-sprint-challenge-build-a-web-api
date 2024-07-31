@@ -19,13 +19,13 @@ router.get('/:id', validateActionId, (req, res, next) => {
 
 
  // problem is here
-router.post('/', validateActionsBody, (req, res, next) => {
-    Actions.insert(req.body)
-        .then(newAction => {
-            res.status(201).json(newAction);
-        })
-        .catch(next);
-});
+ router.post('/', validateActionsBody, (req, res, next) => {
+    Action.insert(req.body)
+      .then(newAction => {
+        res.status(201).json(newAction);
+      })
+      .catch(next);
+  });
 
 router.put('/:id', validateActionsBody, (req, res, next) => {
     Action.update(req.params.id, req.body)
