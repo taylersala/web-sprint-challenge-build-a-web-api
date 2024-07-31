@@ -27,12 +27,22 @@ router.post('/', validateProjectBody, (req, res, next) => {
     .catch(next)
 });
 
-router.put('/:id', validateProjectId, (req, res, next) => {
-    next()
+router.put('/:id', validateProjectId, validateProjectBody, (req, res, next) => {
+    Project.update(req.params.id, req.body)
+    .then(updatedUser => {
+        res.json(updatedUser)
+    })
+    .catch(next)
 });
 
-router.delete('/:id', validateProjectId, (req, res, next) => {
-    next()
+router.delete('/:id', validateProjectId, async (req, res, next) => {
+    try {
+        const result = await Project.remove(req.params.id)
+        res.json(result)
+    }catch (err){
+        next(err)
+    }
+    
 });
 
 router.get('/:id/actions', validateProjectId, (req, res, next) => {
