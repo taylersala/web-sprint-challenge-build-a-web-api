@@ -16,6 +16,15 @@ async function validateActionId(req, res, next) {
     }
 }
 
+function validateActionsBody(req, res, next) {
+    const { name, description, completed } = req.body;
+    if (!name || !description || completed === undefined) {
+      return res.status(400).json({ message: 'Name, description, and completed status are required' });
+    }
+    next();
+  }
+
 module.exports = {
     validateActionId,
+    validateActionsBody,
 }

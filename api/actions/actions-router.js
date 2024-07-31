@@ -1,7 +1,7 @@
 // Write your "actions" router here!
 const express = require('express');
 const Action = require('./actions-model');
-const { validateActionId } = require('./actions-middlware');
+const { validateActionId, validateActionsBody } = require('./actions-middlware');
 
 const router = express.Router();
 
@@ -17,16 +17,31 @@ router.get('/:id', validateActionId, (req, res, next) => {
     res.json(req.action)
 });
 
-router.post('/', (req, res, next) => {
 
+ // problem is here
+router.post('/', validateActionsBody, (req, res, next) => {
+    Actions.insert(req.body)
+        .then(newAction => {
+            res.status(201).json(newAction);
+        })
+        .catch(next);
 });
 
-router.put('/:id', (req, res, next) => {
-
+router.put('/:id', validateActionsBody, (req, res, next) => {
+    Action.update(req.params.id, req.body)
+    .then(updatedUser => {
+        res.json(updatedUser)
+    })
+    .catch(next)
 });
 
-router.delete('/:id', (req, res, next) => {
-
+router.delete('/:id', validateActionId, async (req, res, next) => {
+    try {
+        const result = await Action.remove(req.params.id)
+        res.json(result)
+    }catch (err){
+        next(err)
+    }
 });
 
 
